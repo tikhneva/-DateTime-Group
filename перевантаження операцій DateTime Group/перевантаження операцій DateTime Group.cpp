@@ -1,4 +1,4 @@
-﻿#include <iostream> 
+#include <iostream> 
 using namespace std;
 
 /// <summary> 
@@ -125,6 +125,36 @@ public:
         cout << "Date: " << day << "." << month << "." << year << endl;
     }
 };
+
+// перевантаження для cin >> date time
+istream& operator >> (istream& cin, DateTime& s)
+{
+    int day; 
+    cout << "Enter the start day of study: ";
+    cin >> day;
+    s.SetDay(day);
+
+    int month; 
+    cout << "Enter the start month of study: ";
+    cin >> month;
+    s.SetMonth(month);
+
+    int year;
+    cout << "Enter the start year of study: ";
+    cin >> year;
+    s.SetYear(year);
+
+    return cin;
+}
+
+// перевантаження для cout << date time
+ostream& operator << (ostream& cout, const DateTime& s)
+{
+    cout << "Day of study start: " << s.GetDay() << "\n";
+    cout << "Month of study start: " << s.GetMonth() << "\n";
+    cout << "Year of study start: " << s.GetYear() << "\n";
+    return cout;
+}
 
 ////////////////////////////////////////////////////// 
 
@@ -261,13 +291,13 @@ public:
         return name;
     }
 
-private:
+public:
+    
     void SetBirthday(const DateTime& birthday)
     {
         this->birthday = birthday;
     }
 
-public:
     /// <summary>
     /// a method to get birthday
     /// </summary>
@@ -599,6 +629,49 @@ public:
 
 };
 
+// перевантаження для cin >> student
+istream& operator >> (istream& cin, Student& s)
+{
+    string name; // локальна тимчасова змiнна
+    cout << "Enter student's name: ";
+    cin >> name;
+    s.SetName(name);
+
+    string surname; // ще одна локальна тимчасова змiнна
+    cout << "Enter student's surname: ";
+    cin >> surname;
+    s.SetSurname(surname);
+
+    DateTime birthday;
+
+    cout << "Enter the student's day of birth (1-31): ";
+    int day;
+    cin >> day; // 23
+    birthday.SetDay(day);
+
+    cout << "Enter the student's month of birth (1-12): ";
+    int month;
+    cin >> month; // 3
+    birthday.SetMonth(month);
+
+    cout << "Enter the student's year of birth: ";
+    int year;
+    cin >> year; // 2005
+    birthday.SetYear(year);
+
+    s.SetBirthday(birthday);
+
+    return cin;
+}
+
+// перевантаження для cout << student
+ostream& operator << (ostream& cout, const Student& s)
+{
+    cout << "Student name: " << s.GetName() << "\n";
+    cout << "Student surname: " << s.GetSurname() << "\n";
+    return cout;
+}
+
 unsigned int Student::count = 0;
 
 class Group
@@ -700,6 +773,19 @@ public:
         return group_name;
     }
 
+    void SetStudentsCount(int students_count)
+    {
+        if (students_count > 0)
+        {
+            this->students_count = students_count;
+        }
+        else
+        {
+            cout << "Incorrect value!" << endl;
+            throw "ERROR!\n";
+        }
+    }
+
     int StudentsCount() const
     {
         return students_count;
@@ -790,46 +876,37 @@ public:
     }
 
 };
-// перевантаження для cin >> student
-istream& operator >> (istream& cin, Student& s)
+// перевантаження для cin >> group
+istream& operator >> (istream& cin, Group& s)
 {
-    string name; // локальна тимчасова змiнна
-    cout << "Enter the student's name: ";
-    cin >> name;
-    s.SetName(name);
+    string group_name; // локальна тимчасова змiнна
+    cout << "Enter the group name: ";
+    cin >> group_name;
+    s.SetGroupName(group_name);
 
-    string surname; // ще одна локальна тимчасова змiнна
-    cout << "Enter the student's surname: ";
-    cin >> surname;
-    s.SetSurname(surname);
+    int course_number; // ще одна локальна тимчасова змiнна
+    cout << "Enter the course number: ";
+    cin >> course_number;
+    s.SetCourseNumber(course_number);
 
-    DateTime birthday;
+    string specialization;
+    cout << "Enter the group's specialization: ";
+    cin >> specialization;
+    s.SetSpecializationGroup(specialization);
 
-    cout << "Enter the student's day of birth (1-31): ";
-    int day;
-    cin >> day; // 23
-    birthday.SetDay(day);
-
-    cout << "Enter the student's month of birth (1-12): ";
-    int month;
-    cin >> month; // 3
-    birthday.SetMonth(month);
-
-    cout << "Enter the student's year of birth: ";
-    int year;
-    cin >> year; // 2005
-    birthday.SetYear(year);
-
-    s.SetBirthday(birthday);
+    int students_count;
+    cout << "Enter the number of students: ";
+    cin >> students_count;
+    s.SetStudentsCount(students_count);
 
     return cin;
 }
 
-// перевантаження для cout << student
-ostream& operator << (ostream& cout, const Student& s)
+// перевантаження для cout << group
+ostream& operator << (ostream& cout, const Group& s)
 {
-    cout << "Student name: " << s.GetName() << "\n";
-    cout << "Student surname: " << s.GetSurname() << "\n";
+    cout << "Group name: " << s.GetGroupName() << "\n";
+    cout << "Course number: " << s.GetCourseNumber() << "\n";
     return cout;
 }
 
@@ -840,7 +917,7 @@ int main()
     Student s;
     cin >> s;
     cout << s;
-
+    
     s.AddHometaskRate(10);
     s.AddHometaskRate(12);
     s.AddHometaskRate(9);
