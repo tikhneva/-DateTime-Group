@@ -794,12 +794,12 @@ public:
 istream& operator >> (istream& cin, Student& s)
 {
     string name; // локальна тимчасова змiнна
-    cout << "Введiть i'мя студента: ";
+    cout << "Enter the student's name: ";
     cin >> name;
     s.SetName(name);
 
     string surname; // ще одна локальна тимчасова змiнна
-    cout << "Введiть прiзвище студента: ";
+    cout << "Enter the student's surname: ";
     cin >> surname;
     s.SetSurname(surname);
 
